@@ -1,6 +1,5 @@
 from Crypto.Cipher import AES
-from Crypto.Util.Padding import pad, unpad
-import binascii
+from Crypto.Util.Padding import pad
 
 
 def aes_encrypt(plain_text, key):
@@ -12,4 +11,15 @@ def aes_encrypt(plain_text, key):
     cipher = AES.new(key, AES.MODE_ECB)
     encrypted = cipher.encrypt(data)
 
-    return binascii.hexlify(encrypted).decode('utf-8')
+    return encrypted 
+
+with open("./PLAINTEXT.txt", 'r') as f:
+    plaintext = f.read()
+    
+with open("./KEY.txt", 'r') as kf:
+    key = kf.read().strip() 
+
+encrypted_bytes = aes_encrypt(plaintext, key)
+
+with open("./ENCRYPTED.dat", 'wb') as ef:  # Open in binary write mode
+    ef.write(encrypted_bytes)  
